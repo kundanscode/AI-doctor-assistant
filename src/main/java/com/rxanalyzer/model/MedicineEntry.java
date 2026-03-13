@@ -10,4 +10,5 @@ public class MedicineEntry {
     private String duration;
     private String instructions;
     private String notes;
+
 }

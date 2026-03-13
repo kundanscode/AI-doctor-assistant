@@ -1,11 +1,8 @@
 package com.rxanalyzer.service;
 
-import com.rxanalyzer.model.MedicineEntry;
 import com.rxanalyzer.model.PrescriptionResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Service
 public class PrescriptionService {
@@ -21,16 +18,15 @@ public class PrescriptionService {
 
     public PrescriptionResponse analyze(MultipartFile file) {
         PrescriptionResponse response = new PrescriptionResponse();
-
         try {
-            // Step 1: OCR - extract raw text
+            // Step 1: OCR
             String rawText = ocrService.extractText(file);
             response.setRawText(rawText);
 
-            // Step 2: AI - structure the raw text
-            List<MedicineEntry> medicines = aiExtractionService
-                    .extractMedicines(rawText);
-            response.setMedicines(medicines);
+            // Step 2: AI extraction
+            PrescriptionResponse aiResult = aiExtractionService.extractAll(rawText);
+            response.setPatientInfo(aiResult.getPatientInfo());
+            response.setMedicines(aiResult.getMedicines());
 
             response.setProcessingStatus("SUCCESS");
 
@@ -38,7 +34,6 @@ public class PrescriptionService {
             response.setProcessingStatus("FAILED");
             response.setErrorMessage(e.getMessage());
         }
-
         return response;
     }
 }
