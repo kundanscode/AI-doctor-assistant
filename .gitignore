@@ -33,3 +33,4 @@ build/
 .vscode/
 
 src/main/resources/google-vision-credentials.json
+.env
