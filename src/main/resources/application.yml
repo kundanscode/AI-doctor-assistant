@@ -2,6 +2,25 @@ spring:
   application:
     name: prescription-analyzer
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/prescriptiondb
+    username: rxadmin
+    password: rxpassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
   ai:
     ollama:
       base-url: http://localhost:11434
